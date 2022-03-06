@@ -6,6 +6,8 @@
 [![Go Report
 Card](https://goreportcard.com/badge/github.com/rwxrob/fn)](https://goreportcard.com/report/github.com/rwxrob/fn)
 
+**Note: Go report card doesn't do 1.18 yet.**
+
 * [Map/Filter/Reduce](fn.go)
 * [Each Loop](each)
 * [Maps Library](maps)
