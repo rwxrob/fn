@@ -13,6 +13,29 @@ package fn
 
 import "github.com/rwxrob/fn/each"
 
+// Number combines the primitives generally considered numbers by JSON
+// and other high-level structure data representations.
+type Number interface {
+	int | int64 | int32 | int16 | int8 |
+		uint64 | uint32 | uint16 | uint8 |
+		float64 | float32
+}
+
+// Text combines byte slice and string.
+type Text interface {
+	[]byte | string | []rune
+}
+
+// Sharable are the types that have representations in JSON, YAML, TOML
+// and other high-level structured data representations.
+type Sharable interface {
+	int | int64 | int32 | int16 | int8 |
+		uint64 | uint32 | uint16 | uint8 |
+		float64 | float32 |
+		[]byte | string |
+		bool
+}
+
 // A is the equivalent of an array primitive in other functional
 // languages. It is a generic slice of anything.
 type A[T any] []T
