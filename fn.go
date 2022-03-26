@@ -125,10 +125,11 @@ func Reduce[T any, R any](slice []T, f func(in T, ref *R)) *R {
 // Pipe implements the closest thing to UNIX pipelines possible in Go by
 // passing each argument to the next assuming a func(in any) any format
 // where the input (in) is converted to a string (if not already
-// a string). If any return an error the pipeline fails at that point.
-func Pipe(filter ...any) (string, error) {
+// a string). If any return an error the pipeline returns an empty
+// string and logs an error.
+func Pipe(filter ...any) string {
 	if len(filter) == 0 {
-		return "", nil
+		return ""
 	}
 	var in any
 	in = filter[0]
@@ -140,18 +141,13 @@ func Pipe(filter ...any) (string, error) {
 			in = f
 		}
 		if err, iserr := in.(error); iserr {
-			return "", err
+			log.Print(err)
+			return ""
 		}
 	}
-	return fmt.Sprintf("%v", in), nil
+	return fmt.Sprintf("%v", in)
 }
 
 // PipePrint prints the output (and a newline) of a Pipe logging any
 // errors encountered.
-func PipePrint(filter ...any) {
-	buf, err := Pipe(filter...)
-	if err != nil {
-		log.Print(err)
-	}
-	fmt.Println(buf)
-}
+func PipePrint(filter ...any) { fmt.Println(Pipe(filter...)) }
