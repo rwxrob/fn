@@ -68,6 +68,8 @@ func ExampleA_Print() {
 }
 
 func ExampleA_Log() {
+	defer log.SetOutput(os.Stderr)
+	defer log.SetFlags(log.Flags())
 	log.SetOutput(os.Stdout)
 	log.SetFlags(0)
 	fn.A[int]{1, 2}.Log()
@@ -77,4 +79,24 @@ func ExampleA_Log() {
 	// 2
 	// some: 1
 	// some: 2
+}
+
+func ExamplePipePrint() {
+	thing := func(in any) any { return fmt.Sprintf("%v thing", in) }
+	other := func(in any) any { return fmt.Sprintf("%v other", in) }
+	fn.PipePrint("some", other, thing)
+	// Output:
+	// some other thing
+}
+
+func ExamplePipePrint_error() {
+	defer log.SetOutput(os.Stderr)
+	defer log.SetFlags(log.Flags())
+	log.SetOutput(os.Stdout)
+	log.SetFlags(0)
+	thing := func(in any) any { return fmt.Sprintf("%v thing", in) }
+	other := func(in any) any { return fmt.Errorf("bork") }
+	fn.PipePrint("some", other, thing)
+	// Output:
+	// bork
 }

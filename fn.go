@@ -11,7 +11,12 @@ obfuscating the parameter list of the functional function.
 */
 package fn
 
-import "github.com/rwxrob/fn/each"
+import (
+	"fmt"
+	"log"
+
+	"github.com/rwxrob/fn/each"
+)
 
 // Number combines the primitives generally considered numbers by JSON
 // and other high-level structure data representations.
@@ -115,4 +120,38 @@ func Reduce[T any, R any](slice []T, f func(in T, ref *R)) *R {
 		f(i, r)
 	}
 	return r
+}
+
+// Pipe implements the closest thing to UNIX pipelines possible in Go by
+// passing each argument to the next assuming a func(in any) any format
+// where the input (in) is converted to a string (if not already
+// a string). If any return an error the pipeline fails at that point.
+func Pipe(filter ...any) (string, error) {
+	if len(filter) == 0 {
+		return "", nil
+	}
+	var in any
+	in = filter[0]
+	for _, f := range filter[1:] {
+		switch v := f.(type) {
+		case func(any) any:
+			in = v(in)
+		default:
+			in = f
+		}
+		if err, iserr := in.(error); iserr {
+			return "", err
+		}
+	}
+	return fmt.Sprintf("%v", in), nil
+}
+
+// PipePrint prints the output (and a newline) of a Pipe logging any
+// errors encountered.
+func PipePrint(filter ...any) {
+	buf, err := Pipe(filter...)
+	if err != nil {
+		log.Print(err)
+	}
+	fmt.Println(buf)
 }
