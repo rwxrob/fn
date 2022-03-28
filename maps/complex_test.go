@@ -24,3 +24,10 @@ func ExampleKeys() {
 	// [one three two]
 	// [one three two]
 }
+
+func ExampleKeysWithPrefix() {
+	m1 := map[string]int{"two": 2, "three": 3, "one": 1}
+	fmt.Println(maps.KeysWithPrefix(m1, "t"))
+	// Output:
+	// [three two]
+}

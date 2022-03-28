@@ -5,6 +5,7 @@ package maps
 
 import (
 	"sort"
+	"strings"
 
 	"github.com/rwxrob/fn"
 )
@@ -24,7 +25,20 @@ func Keys[T any](m map[string]T) []string {
 	keys := []string{}
 	for k, _ := range m {
 		keys = append(keys, k)
-		sort.Strings(keys)
 	}
+	sort.Strings(keys)
+	return keys
+}
+
+// KeysWithPrefix returns only keys from the map that match
+// strings.HasPrefix.
+func KeysWithPrefix[T any](m map[string]T, pre string) []string {
+	keys := []string{}
+	for k, _ := range m {
+		if strings.HasPrefix(k, pre) {
+			keys = append(keys, k)
+		}
+	}
+	sort.Strings(keys)
 	return keys
 }
