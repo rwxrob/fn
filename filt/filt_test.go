@@ -31,3 +31,12 @@ func ExampleBaseHasPrefix() {
 	// some/foo
 	// some/foo1
 }
+
+func ExampleNotEmpty() {
+	set := []string{
+		"one", "", "two", "", "three",
+	}
+	fmt.Println(filt.NotEmpty(set))
+	// Output:
+	// [one two three]
+}
