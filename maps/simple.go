@@ -6,6 +6,7 @@ package maps
 import (
 	"io/fs"
 	"path/filepath"
+	"strings"
 
 	"github.com/rwxrob/fn"
 	"github.com/rwxrob/fn/mapf"
@@ -27,3 +28,6 @@ func HashComment(s []string) []string { return fn.Map(s, mapf.HashComment) }
 
 // EscSpace replaces all spaces with backslashed spaces.
 func EscSpace(s []string) []string { return fn.Map(s, mapf.EscSpace) }
+
+// TrimSpace calls strings.TrimSpace on each.
+func TrimSpace(s []string) []string { return fn.Map(s, strings.TrimSpace) }

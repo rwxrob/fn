@@ -44,3 +44,17 @@ func ExampleEscSpace() {
 	// some\ thing
 	// one\ other\ \ \ thing
 }
+
+func ExampleTrimSpace() {
+	each.Println(maps.TrimSpace([]string{
+		"  some thing  ",
+		" one other   thing",
+		"ing-ing  ",
+		"",
+	}))
+	// Output:
+	// some thing
+	// one other   thing
+	// ing-ing
+	//
+}
