@@ -40,3 +40,27 @@ func ExampleNotEmpty() {
 	// Output:
 	// [one two three]
 }
+
+func ExampleRemoveIndex() {
+
+	type SomeType struct {
+		Thing string
+	}
+
+	one := &SomeType{`one`}
+	two := &SomeType{`two`}
+	three := &SomeType{`three`}
+
+	set := []*SomeType{one, two, three}
+	oneref := set[0]
+	threeref := set[2]
+
+	nset := filt.RemoveIndex(set, 1)
+
+	fmt.Println(nset[0] == oneref)
+	fmt.Println(nset[1] == threeref)
+
+	// Output:
+	// true
+	// true
+}
